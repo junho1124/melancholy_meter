@@ -25,9 +25,10 @@ class WeeklyChart extends StatelessWidget {
             color: Colors.blueGrey,
             boxShadow: [
               BoxShadow(
-                  color: Colors.white24,
+                  color: Colors.grey,
                   offset: Offset(0.0, 1.0),
-                  blurRadius: 6.0)
+                  blurRadius: 6.0
+              )
             ]),
         child: Column(
           children: [
@@ -41,7 +42,7 @@ class WeeklyChart extends StatelessWidget {
                 margin: EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(color: Colors.white)
+                    border: Border.all(color: Colors.white),
                 ),
                 child: Padding(
                     padding: const EdgeInsets.all(16.0),

@@ -17,7 +17,7 @@ class StatusNow extends StatelessWidget {
         child: Container(
             padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(18.0),
                 color: Colors.pinkAccent.shade100,
                 boxShadow: [
                   BoxShadow(
