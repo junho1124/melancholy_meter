@@ -1,53 +1,40 @@
 import 'dart:collection';
 
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DetailRepository {
   final String now = DateFormat('yyyy-MM-dd').format(
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
 
-  Future<SharedPreferences>? setPrefs() async {
-    return await SharedPreferences.getInstance();
-  }
+  final box = GetStorage();
 
-  Future<List<List<String>>> getAllStatus() async {
-    final SharedPreferences? prefs;
-    prefs = await setPrefs();
+  List<List<String>> getAllStatus() {
 
     List<List<String>> prefsList = [];
-    if (prefs != null) {
-      final keys = prefs.getKeys();
-      final sortedKey = SplayTreeSet.from(keys);
-      for (String key in sortedKey) {
-        prefsList.add(prefs.getStringList(key) ?? []);
-      }
-      return prefsList;
+
+    final keys = box.getKeys();
+    final sortedKey = SplayTreeSet.from(keys);
+    for (String key in sortedKey) {
+      List<dynamic> resultDynamic = box.read(key);
+      List<String> result = resultDynamic.map((e) => e.toString()).toList();
+      prefsList.add(result);
     }
     return prefsList;
   }
 
-  Future<List<String>> getNowStatus() async {
-    final SharedPreferences? prefs;
-    prefs = await setPrefs();
-
-    if (prefs != null) {
-      return prefs.getStringList('$now') ?? [];
-    } else
-      return [];
+  List<String> getNowStatus() {
+      return box.read('$now');
   }
 
   //한달간의 기분 정보를 가져옴
-  Future<List<double>> getMonthlyStatus() async {
-    final SharedPreferences? prefs;
+  List<double> getMonthlyStatus() {
     List<double> monthlyStatus = List.generate(5, (index) => 0);
-    prefs = await setPrefs();
-    if (prefs != null) {
-      final keys = prefs.getKeys();
+      final keys = box.getKeys();
       final sortedKey = SplayTreeSet.from(keys);
 
       for (String key in sortedKey) {
-        int status = int.parse((prefs.getStringList(key) ?? [])[0]);
+        int status = int.parse((box.read(key))[0]);
         int count = 0;
         if (status == 0) {
           monthlyStatus[0]++;
@@ -69,15 +56,10 @@ class DetailRepository {
           break;
         }
       }
-    }
     return monthlyStatus;
   }
 
-  void clear() async {
-    final SharedPreferences? prefs;
-    prefs = await setPrefs();
-    if (prefs != null) {
-      prefs.clear();
-    }
+  void clear() {
+      box.erase();
   }
 }

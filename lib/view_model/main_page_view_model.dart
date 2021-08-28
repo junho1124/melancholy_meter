@@ -1,28 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:melancholy_meter/repository/status_repository.dart';
+import 'package:get/get.dart';
 
-class MainPageViewModel extends ChangeNotifier {
+class MainPageViewModel extends GetxController {
 
   MainPageViewModel(this.repository);
 
   final StatusRepository repository;
 
-  int _selected = 2;
+  RxInt _selected = 2.obs;
 
-  int get selected => _selected;
+  RxInt get selected => _selected;
 
   void select(int value) {
-    _selected = value;
-    notifyListeners();
+    _selected.value = value;
+    update();
   }
 
   void saveStatus(String memo) {
-    repository.save(memo, _selected);
-    notifyListeners();
+    repository.save(memo, _selected.value);
   }
 
   void saveFake() {
     repository.saveFake();
-    notifyListeners();
   }
 }

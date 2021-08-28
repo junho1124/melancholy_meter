@@ -1,16 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:melancholy_meter/view_model/detail_page_view_model.dart';
 
 class MonthlyChart extends StatelessWidget {
   const MonthlyChart({
     Key? key,
-  }) : super(key: key);
+    required DetailPageViewMode getXController
+  }) : _controller = getXController,
+        super(key: key);
+
+  final DetailPageViewMode _controller;
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<DetailPageViewMode>();
     return AspectRatio(
       aspectRatio: 1.60,
       child: Container(
@@ -99,7 +101,7 @@ class MonthlyChart extends StatelessWidget {
                           show: false,
                         ),
                         barGroups: showingGroups(
-                            viewModel.outputMonthly),
+                            _controller.outputMonthly),
                       )))),
             ),
           ],

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:melancholy_meter/view_model/main_page_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:melancholy_meter/ui/main_page/make_face_icon.dart';
+import 'package:get/get.dart';
 
 class ChooseIconModule extends StatelessWidget {
   const ChooseIconModule({
     Key? key,
-  }) : super(key: key);
+    required MainPageViewModel getXController
+  }) : _controller = getXController,
+        super(key: key);
+
+  final MainPageViewModel _controller;
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<MainPageViewModel>();
     return Container(
       height: 150,
       width: 400,
@@ -44,7 +47,7 @@ class ChooseIconModule extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 5,
               itemBuilder: (context, index) {
-                return makeFaceIcon(viewModel, index);
+                return makeFaceIcon(_controller, index.obs);
               },
             ),
           ),

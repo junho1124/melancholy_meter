@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:melancholy_meter/repository/detail_repository.dart';
 
-class DetailPageViewMode extends ChangeNotifier {
+class DetailPageViewMode extends GetxController {
   List<List<String>> _output = [];
 
   List<String> _outputNow = [];
@@ -10,7 +10,7 @@ class DetailPageViewMode extends ChangeNotifier {
 
   bool _isLoaded = false;
 
-  bool _isButtonChange = false;
+  RxBool _isButtonChange = false.obs;
 
   List<List<String>> get output => _output;
 
@@ -20,30 +20,29 @@ class DetailPageViewMode extends ChangeNotifier {
 
   bool get isLoaded => _isLoaded;
 
-  bool get isButtonChange => _isButtonChange;
+  RxBool get isButtonChange => _isButtonChange;
 
   DetailPageViewMode(this._repository);
 
   DetailRepository _repository;
 
-  void getAllStatus() async {
+  void onInit() {
+    super.onInit();
     _isLoaded = false;
-    _output = await _repository.getAllStatus();
-    _outputNow = await _repository.getNowStatus();
-    _outputMonthly = await _repository.getMonthlyStatus();
+    _output = _repository.getAllStatus();
+    _outputNow = _repository.getNowStatus();
+    _outputMonthly = _repository.getMonthlyStatus();
 
     _isLoaded = true;
-    notifyListeners();
   }
 
   void clearStatus() {
     _repository.clear();
-    notifyListeners();
+    update();
   }
 
   void buttonChange() {
-    _isButtonChange = !_isButtonChange;
-    notifyListeners();
+    _isButtonChange.value = !_isButtonChange.value;
   }
 
 }

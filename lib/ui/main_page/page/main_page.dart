@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:melancholy_meter/repository/status_repository.dart';
 import 'package:melancholy_meter/ui/detail_page/page/detail_page.dart';
 import 'package:melancholy_meter/ui/main_page/page_module/state_indicator_module.dart';
 import 'package:melancholy_meter/view_model/main_page_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:melancholy_meter/ui/main_page/page_module/choose_icon_module.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,6 +18,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final repository = StatusRepository();
+    final controller = Get.put(MainPageViewModel(repository));
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,13 +34,13 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ChooseIconModule(),
+              ChooseIconModule(getXController: controller),
               SizedBox(height: 16.0),
-              StateIndicatorModule(),
+              StateIndicatorModule(getXController: controller),
               SizedBox(height: 16.0),
               Divider(color: Colors.black),
               SizedBox(height: 16.0),
-              NoteOfTheDayModule(textController: _textController)
+              NoteOfTheDayModule(textController: _textController, getXController: controller)
             ],
           ),
         ),
@@ -50,13 +53,18 @@ class NoteOfTheDayModule extends StatelessWidget {
   const NoteOfTheDayModule({
     Key? key,
     required TextEditingController textController,
+    required MainPageViewModel getXController
   })  : _textController = textController,
+        _controller = getXController,
         super(key: key);
 
   final TextEditingController _textController;
 
+  final MainPageViewModel _controller;
+
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Text('기분 메모장'),
@@ -83,13 +91,9 @@ class NoteOfTheDayModule extends StatelessWidget {
         ),
         TextButton(
             onPressed: () {
-              context
-                  .read<MainPageViewModel>()
-                  .saveStatus(_textController.text);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => DetailPage()));
+              _controller.saveStatus(_textController.text);
+              // _controller.saveFake();
+              Get.off(DetailPage());
             },
             child: Text(
               '저장',

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:melancholy_meter/util/selected_icon_color.dart';
 import 'package:melancholy_meter/util/selected_status_text.dart';
-import 'package:provider/provider.dart';
 import 'package:melancholy_meter/view_model/detail_page_view_model.dart';
 
 class StatusNow extends StatelessWidget {
   const StatusNow({
     Key? key,
-  }) : super(key: key);
+    required DetailPageViewMode getXController
+  }) : _controller = getXController,
+        super(key: key);
+
+  final DetailPageViewMode _controller;
 
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<DetailPageViewMode>();
     return Container(
         child: Container(
             padding: EdgeInsets.all(16.0),
@@ -40,14 +42,14 @@ class StatusNow extends StatelessWidget {
                   Icon(
                     Icons.tag_faces,
                     color: selectedIconColor(
-                        int.parse(viewModel.outputNow[0])),
+                        int.parse(_controller.outputNow[0])),
                     size: 100.0,
                   ),
                   SizedBox(
                     height: 16.0,
                   ),
                   Text(selectedStatusText(
-                      int.parse(viewModel.outputNow[0])))
+                      int.parse(_controller.outputNow[0])))
                 ],
               ),
             )));

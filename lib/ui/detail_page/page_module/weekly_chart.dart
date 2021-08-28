@@ -3,18 +3,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:melancholy_meter/util/selected_icon_color.dart';
 import 'package:melancholy_meter/view_model/detail_page_view_model.dart';
-import 'package:provider/provider.dart';
 import '../util.dart';
 
 class WeeklyChart extends StatelessWidget {
   const WeeklyChart({
     Key? key,
-  }) : super(key: key);
+    required DetailPageViewMode getXController
+  }) : _controller = getXController,
+        super(key: key);
+  final DetailPageViewMode _controller;
 
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<DetailPageViewMode>();
     return AspectRatio(
       aspectRatio: 1.60,
       child: Container(
@@ -74,7 +75,7 @@ class WeeklyChart extends StatelessWidget {
                       maxY: 4,
                       lineBarsData: [
                         LineChartBarData(
-                          spots: getResentStates(viewModel),
+                          spots: getResentStates(_controller),
                           isCurved: true,
                           colors: [Colors.deepPurpleAccent],
                           barWidth: 5,

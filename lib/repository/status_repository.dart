@@ -1,27 +1,18 @@
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class StatusRepository {
 
   final String now = DateFormat('yyyy-MM-dd').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
 
-  Future<SharedPreferences>? setPrefs() async {
-    return await SharedPreferences.getInstance();
-  }
+  final box = GetStorage();
 
-  void save(String memo, int status) async {
-    final SharedPreferences? prefs;
-    prefs = await setPrefs();
-
+  void save(String memo, int status) {
     List<String> input = [status.toString(), memo];
-    if(prefs != null) {
-      prefs.setStringList('$now', input);
-    }
+    box.write('$now', input);
   }
 
-  void saveFake() async {
-    final SharedPreferences? prefs;
-    prefs = await setPrefs();
+  void saveFake() {
 
     List<List<String>> fakeInput = [
       ['1', '첫번째'],
@@ -33,9 +24,7 @@ class StatusRepository {
       ['3', '일곱번째'],
     ];
     for(int i = 0; i < fakeInput.length; i++) {
-      if(prefs != null) {
-        prefs.setStringList('2021-08-1$i', fakeInput[i]);
-      }
+        box.write('2021-08-1$i', fakeInput[i]);
     }
   }
 }

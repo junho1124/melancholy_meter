@@ -1,23 +1,18 @@
 import 'dart:collection';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DiaryRepository {
-  Future<SharedPreferences>? setPrefs() async {
-    return await SharedPreferences.getInstance();
-  }
+  final box = GetStorage();
 
-  Future<Map<String, String>> makeMemoItems() async {
-    final prefs = await setPrefs();
-    Map<String, String> memoItems = {};
+  RxMap<dynamic, dynamic> makeMemoItems() {
+    RxMap<dynamic, dynamic> memoItems = {}.obs;
 
-    if(prefs != null) {
-      final keys = prefs.getKeys();
+      final keys = box.getKeys();
       final sortedKey = SplayTreeSet.from(keys);
 
       for(String key in sortedKey) {
-        memoItems[key] = (prefs.getStringList(key) ?? [])[1];
-      }
+        memoItems[key] = (box.read(key))[1];
     }
 
     return memoItems;
