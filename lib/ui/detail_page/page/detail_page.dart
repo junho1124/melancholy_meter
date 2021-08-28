@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:melancholy_meter/ui/detail_page/page_module/monthly_chart.dart';
 import 'package:melancholy_meter/ui/detail_page/page_module/status_now.dart';
 import 'package:melancholy_meter/ui/detail_page/page_module/weekly_chart.dart';
+import 'package:melancholy_meter/ui/diary_page/page/diary_page.dart';
 import 'package:melancholy_meter/view_model/detail_page_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -28,11 +29,17 @@ class _DetailPageState extends State<DetailPage> {
           actions: [
             IconButton(
                 onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DiaryPage()));
+                },
+                icon: Icon(Icons.list_alt)),
+            IconButton(
+                onPressed: () {
                   viewModel.buttonChange();
                 },
                 icon: viewModel.isButtonChange
-                    ? Icon(Icons.calendar_view_month)
-                    : Icon(Icons.calendar_view_week))
+                    ? Icon(Icons.bar_chart)
+                    : Icon(Icons.show_chart)
+            )
           ],
         ),
         body: viewModel.isLoaded

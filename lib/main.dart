@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:melancholy_meter/repository/detail_repository.dart';
+import 'package:melancholy_meter/repository/diary_repository.dart';
 import 'package:melancholy_meter/repository/status_repository.dart';
 import 'package:melancholy_meter/ui/main_page/page/main_page.dart';
 import 'package:melancholy_meter/view_model/detail_page_view_model.dart';
+import 'package:melancholy_meter/view_model/diary_page_view_model.dart';
 import 'package:melancholy_meter/view_model/main_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   final statusRepository = StatusRepository();
   final detailRepository = DetailRepository();
+  final diaryRepository = DiaryRepository();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => MainPageViewModel(statusRepository)),
       ChangeNotifierProvider(create: (_) => DetailPageViewMode(detailRepository)),
+      ChangeNotifierProvider(create: (_) => DiaryPageViewModel(diaryRepository)),
     ],
     child: MyApp(),
   ));
