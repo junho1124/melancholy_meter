@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:melancholy_meter/view_model/main_page_view_model.dart';
-import 'package:melancholy_meter/ui/main_page/make_face_icon.dart';
 import 'package:get/get.dart';
+
+import '../make_face_icon.dart';
 
 class ChooseIconModule extends StatelessWidget {
   const ChooseIconModule({

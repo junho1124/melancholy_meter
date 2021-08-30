@@ -3,20 +3,8 @@ import 'package:get/get.dart';
 import 'package:melancholy_meter/repository/diary_repository.dart';
 import 'package:melancholy_meter/view_model/diary_page_view_model.dart';
 
-class DiaryPage extends StatefulWidget {
-  const DiaryPage({Key? key}) : super(key: key);
-
-  @override
-  _DiaryPageState createState() => _DiaryPageState();
-}
-
-class _DiaryPageState extends State<DiaryPage> {
+class DiaryPage extends StatelessWidget {
   final repository = DiaryRepository();
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +26,12 @@ class _DiaryPageState extends State<DiaryPage> {
                  터치하면 색이 바뀌며 수정가능하게 */
                 title: Text(controller.memoItems.keys.toList()[index]),
                 subtitle: Text(controller.memoItems.values.toList()[index]),
-                trailing: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined),),
+                trailing: IconButton(
+                  onPressed: () {
+                    controller.tabbed(index);
+                  },
+                  icon: Icon(Icons.arrow_forward_outlined),
+                ),
 
             );
           },

@@ -4,7 +4,7 @@ import 'package:melancholy_meter/repository/detail_repository.dart';
 class DetailPageViewMode extends GetxController {
   List<List<String>> _output = [];
 
-  List<String> _outputNow = [];
+  List<dynamic> _outputNow = [];
 
   List<double> _outputMonthly = [];
 
@@ -14,7 +14,7 @@ class DetailPageViewMode extends GetxController {
 
   List<List<String>> get output => _output;
 
-  List<String> get outputNow => _outputNow;
+  List<dynamic> get outputNow => _outputNow;
 
   List<double> get outputMonthly => _outputMonthly;
 

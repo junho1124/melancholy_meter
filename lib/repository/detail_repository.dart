@@ -23,7 +23,7 @@ class DetailRepository {
     return prefsList;
   }
 
-  List<String> getNowStatus() {
+  List<dynamic> getNowStatus() {
       return box.read('$now');
   }
 

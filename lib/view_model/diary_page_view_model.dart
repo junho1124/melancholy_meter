@@ -12,6 +12,14 @@ class DiaryPageViewModel extends GetxController {
     _memoItems = _repository.makeMemoItems();
   }
 
+  RxList _isTab = [].obs;
+
+  RxList get isTab => _isTab;
+
+  void tabbed(int index) {
+    _isTab.add(index);
+  }
+
   RxMap<dynamic, dynamic> _memoItems = {}.obs;
 
   RxMap<dynamic, dynamic> get memoItems => _memoItems;
